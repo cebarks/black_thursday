@@ -3,6 +3,27 @@ class Repository
   def initialize
     @instances = []
     @count = 0
+    @method_blacklist ||= []
+    create_find_bys
+    # require 'pry'; binding.pry
+  end
+
+  def create_find_bys
+    variables = @type.new(Hash.new("")).instance_variables
+    variables.each do |sym|
+      create_find_by_method(sym.to_s.delete("@"))
+    end
+  end
+
+  def create_find_by_method(str)
+    method_name = "find_by_#{str}".to_sym
+
+    return if @method_blacklist.include?(method_name)
+
+    self.class.send(:define_method, method_name) { |query|
+      find_by_attribute(str.to_sym, query)
+      # puts "hello"
+    }
   end
 
   def mark_unsorted
@@ -36,13 +57,13 @@ class Repository
     end
   end
 
-  def find_by_id(id)
-    find_by_attribute(:id, id)
-  end
-
-  def find_by_name(name)
-    find_by_attribute(:name, name)
-  end
+  # def find_by_id(id)
+  #   find_by_attribute(:id, id)
+  # end
+  #
+  # def find_by_name(name)
+  #   find_by_attribute(:name, name)
+  # end
 
   def find_all_by_name(name)
     find_all_by_attribute(:name, name)

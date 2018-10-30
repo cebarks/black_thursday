@@ -6,6 +6,7 @@ class MerchantRepository < Repository
   def initialize
     @type = Merchant
     @attr_whitelist = [:name]
+    @method_blacklist = [:find_by_name]
     @sorted = false
     super
   end
@@ -20,5 +21,11 @@ class MerchantRepository < Repository
     @instances.find do |instance|
       instance.name.downcase.include?(fragment.downcase)
     end
+  end
+end
+
+class MerchantRepository
+  def test
+
   end
 end

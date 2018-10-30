@@ -34,7 +34,7 @@ module CustomerIntelligence
     customer = customers.find_by_id(customer_id)
     find_invoices_from(customer).reduce(0) do |top_item_count, invoice|
       next top_item_count unless at_least_one_succesful_transaction?(invoice.id)
-      if get_item_count_for(invoice) > top_item_count
+      if get_item_count_for(invoice.id) > top_item_count
         top_invoice = invoice
         top_item_count = invoice_item_count
       end
