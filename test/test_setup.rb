@@ -1,20 +1,7 @@
 module TestSetup
-  def setup_big_data_set
-    se = SalesEngine.from_csv(
-      {
-        items: './data/items.csv',
-        merchants: './data/merchants.csv',
-        invoices: './data/invoices.csv',
-        invoice_items: './data/invoice_items.csv',
-        transactions: './data/transactions.csv',
-        customers: './data/customers.csv'
-      }
-    )
-    @sa = se.analyst
-  end
 
   def setup_fixtures
-    se = SalesEngine.from_csv(
+    @se = SalesEngine.from_csv(
       {
         items: './test/data/test_items.csv',
         merchants: './test/data/test_merchants.csv',
@@ -24,17 +11,18 @@ module TestSetup
         customers: './test/data/test_customers.csv'
       }
     )
-    @sa = se.analyst
+    @sa = @se.analyst
   end
 
   def setup_empty_sales_engine
-    item_repository = ItemRepository.new
-    merchant_repository = MerchantRepository.new
-    invoice_repository = InvoiceRepository.new
-    invoice_items_repository = InvoiceItemRepository.new
-    customers_repository = CustomerRepository.new
-    transactions_repository = TransactionRepository.new
-    @se = SalesEngine.new(item_repository, merchant_repository, invoice_repository, invoice_items_repository, customers_repository, transactions_repository)
+    @now = Time.now
+    @items = ItemRepository.new
+    @merchants = MerchantRepository.new
+    @invoices = InvoiceRepository.new
+    @invoice_items = InvoiceItemRepository.new
+    @customers = CustomerRepository.new
+    @transactions = TransactionRepository.new
+    @se = SalesEngine.new(@items, @merchants, @invoices, @invoice_items, @customers, @transactions)
     @sa = @se.analyst
   end
 end
