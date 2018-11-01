@@ -1,4 +1,6 @@
-require "pry"
+# frozen_string_literal: true
+
+require 'pry'
 
 require_relative 'statistics'
 require_relative 'finders'
@@ -50,6 +52,7 @@ class SalesAnalyst
     customers.reduce(0) do |highest, customer|
       invoice = find_invoices_from(customer)[0]
       next highest unless all_transactions_successful_for?(invoice.id)
+
       top_item = get_top_invoice_items_for(invoice, false)
       current = get_transaction_count_for(top_item)
       highest = current if current > highest

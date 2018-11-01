@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/invoice_item'
 require 'bigdecimal'
@@ -5,15 +7,15 @@ require 'bigdecimal'
 class InvoiceItemTest < Minitest::Test
   def setup
     @now = Time.now
-    @invoice_item = InvoiceItem.new({
-      :id => 6,
-      :item_id => 7,
-      :invoice_id => 8,
-      :quantity => 1,
-      :unit_price => BigDecimal.new(10.99, 4),
-      :created_at => @now,
-      :updated_at => @now
-    })
+    @invoice_item = InvoiceItem.new(
+      id: 6,
+      item_id: 7,
+      invoice_id: 8,
+      quantity: 1,
+      unit_price: BigDecimal(10.99, 4),
+      created_at: @now,
+      updated_at: @now
+    )
   end
 
   def test_it_exists
@@ -37,7 +39,7 @@ class InvoiceItemTest < Minitest::Test
   end
 
   def test_it_has_a_unit_price
-    assert_equal BigDecimal.new(10.99, 4), @invoice_item.unit_price
+    assert_equal BigDecimal(10.99, 4), @invoice_item.unit_price
   end
 
   def test_it_has_a_created_at_time

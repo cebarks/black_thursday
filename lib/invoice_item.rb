@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'business_data'
 
 class InvoiceItem < BusinessData

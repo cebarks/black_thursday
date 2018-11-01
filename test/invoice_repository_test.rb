@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/invoice_repository'
 require './lib/invoice'
@@ -8,39 +10,39 @@ class InvoiceRepositoryTest < Minitest::Test
     @ir = InvoiceRepository.new
 
     @invoice_1 = {
-      :id          => 1,
-      :customer_id => 3,
-      :merchant_id => 8,
-      :status      => "pending",
-      :created_at  => @now,
-      :updated_at  => @now,
+      id: 1,
+      customer_id: 3,
+      merchant_id: 8,
+      status: 'pending',
+      created_at: @now,
+      updated_at: @now
     }
 
     @invoice_2 = {
-      :id          => 2,
-      :customer_id => 6,
-      :merchant_id => 8,
-      :status      => "pending",
-      :created_at  => @now,
-      :updated_at  => @now,
+      id: 2,
+      customer_id: 6,
+      merchant_id: 8,
+      status: 'pending',
+      created_at: @now,
+      updated_at: @now
     }
 
     @invoice_3 = {
-      :id          => 3,
-      :customer_id => 7,
-      :merchant_id => 8,
-      :status      => "shipped",
-      :created_at  => @now,
-      :updated_at  => @now,
+      id: 3,
+      customer_id: 7,
+      merchant_id: 8,
+      status: 'shipped',
+      created_at: @now,
+      updated_at: @now
     }
 
     @invoice_4 = {
-      :id          => 4,
-      :customer_id => 7,
-      :merchant_id => 8,
-      :status      => "shipped",
-      :created_at  => @now,
-      :updated_at  => @now,
+      id: 4,
+      customer_id: 7,
+      merchant_id: 8,
+      status: 'shipped',
+      created_at: @now,
+      updated_at: @now
     }
   end
 
@@ -63,7 +65,7 @@ class InvoiceRepositoryTest < Minitest::Test
     expected = [Invoice.new(@invoice_1), Invoice.new(@invoice_2), Invoice.new(@invoice_3), Invoice.new(@invoice_4)]
     result = @ir.instances
 
-    result.each_with_index {|invoice, index| assert_equal invoice, expected[index]}
+    result.each_with_index { |invoice, index| assert_equal invoice, expected[index] }
     assert_equal 4, @ir.instances.count
   end
 
@@ -79,7 +81,7 @@ class InvoiceRepositoryTest < Minitest::Test
     expected = [Invoice.new(@invoice_3), Invoice.new(@invoice_4)]
     result = @ir.find_all_by_customer_id(9)
 
-    result.each_with_index {|invoice, index| assert_equal invoice, expected[index]}
+    result.each_with_index { |invoice, index| assert_equal invoice, expected[index] }
   end
 
   def test_find_all_by_status_returns_empty_array_if_no_matches
@@ -94,6 +96,6 @@ class InvoiceRepositoryTest < Minitest::Test
     expected = [Invoice.new(@invoice_3), Invoice.new(@invoice_4)]
     result = @ir.find_all_by_status(:shipped)
 
-    result.each_with_index {|invoice, index| assert_equal invoice, expected[index]}
+    result.each_with_index { |invoice, index| assert_equal invoice, expected[index] }
   end
 end

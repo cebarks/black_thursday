@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/statistics'
 require './lib/repository'
@@ -12,15 +14,15 @@ class StatisticsTest < Minitest::Test
   end
 
   def test_most_basic_standard_deviation
-    assert_equal 1, @rep.standard_deviation(3,4,5)
+    assert_equal 1, @rep.standard_deviation(3, 4, 5)
   end
 
   def test_standard_deviation
-    assert_equal 1.5275252316519465, @rep.standard_deviation(3,4,6)
+    assert_equal 1.5275252316519465, @rep.standard_deviation(3, 4, 6)
   end
 
   def test_average
-    assert_equal 4, @rep.average(3,4,5)
+    assert_equal 4, @rep.average(3, 4, 5)
   end
 
   def test_sum

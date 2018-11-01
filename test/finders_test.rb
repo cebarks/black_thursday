@@ -1,26 +1,27 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/sales_engine'
 require './lib/finders'
 
 require 'pry'
 
-
 class FindersTest < Minitest::Test
-
   include TestSetup
   def setup
     setup_empty_sales_engine
     setup_related_data
   end
+
   def setup_related_data
     @se.invoices.create(id: 1, customer_id: 6, merchant_id: 1, status: :shipped)
     @se.invoices.create(id: 2, customer_id: 6, merchant_id: 1, status: :shipped)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :failure, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :failure, credit_card_expiration_date: Time.now)
     @se.invoice_items.create(id: 4, item_id: 5, invoice_id: 1, unit_price: BigDecimal(100_000_00), quantity: 4)
     @se.invoice_items.create(id: 4, item_id: 5, invoice_id: 2, unit_price: BigDecimal(100_000_00), quantity: 4)
     @se.merchants.create(id: 1, name: "Bob's Burgers")
-    @se.items.create(id: 5, name: "burger", merchant_id: 1)
-    @se.customers.create(:id => 6, :first_name => "Joan", :last_name => "Clarke", :created_at => Time.now, :updated_at => Time.now)
+    @se.items.create(id: 5, name: 'burger', merchant_id: 1)
+    @se.customers.create(id: 6, first_name: 'Joan', last_name: 'Clarke', created_at: Time.now, updated_at: Time.now)
   end
 
   def test_it_can_find_invoices_from_Merchant
@@ -92,8 +93,6 @@ class FindersTest < Minitest::Test
     assert_equal 1, actual.size
     assert_instance_of Merchant, actual[0]
   end
-
-
 
   def test_find_type_from_object_finds_right_type_of_object
     setup_related_data

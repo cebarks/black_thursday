@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/transaction'
 require 'bigdecimal'
@@ -5,15 +7,15 @@ require 'bigdecimal'
 class TransactionTest < Minitest::Test
   def setup
     @now = Time.now
-    @transaction = Transaction.new({
-      :id => 6,
-      :invoice_id => 8,
-      :credit_card_number => "4242424242424242",
-      :credit_card_expiration_date => "0220",
-      :result => "success",
-      :created_at => @now,
-      :updated_at => @now
-    })
+    @transaction = Transaction.new(
+      id: 6,
+      invoice_id: 8,
+      credit_card_number: '4242424242424242',
+      credit_card_expiration_date: '0220',
+      result: 'success',
+      created_at: @now,
+      updated_at: @now
+    )
   end
 
   def test_it_exists
@@ -29,15 +31,15 @@ class TransactionTest < Minitest::Test
   end
 
   def test_it_has_a_credit_card_number
-    assert_equal "4242424242424242", @transaction.credit_card_number
+    assert_equal '4242424242424242', @transaction.credit_card_number
   end
 
   def test_it_has_a_credit_card_expiration
-    assert_equal "0220", @transaction.credit_card_expiration_date
+    assert_equal '0220', @transaction.credit_card_expiration_date
   end
 
   def test_it_has_a_result
-    assert_equal "success", @transaction.result
+    assert_equal 'success', @transaction.result
   end
 
   def test_it_has_a_created_at_date

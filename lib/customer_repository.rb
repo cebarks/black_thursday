@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'repository'
 require_relative 'customer'
 
@@ -5,7 +7,7 @@ class CustomerRepository < Repository
   attr_reader :type, :attr_whitelist
   def initialize
     @type = Customer
-    @attr_whitelist = [:first_name, :last_name]
+    @attr_whitelist = %i[first_name last_name]
     super
   end
 

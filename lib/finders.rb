@@ -1,5 +1,6 @@
-module Finders
+# frozen_string_literal: true
 
+module Finders
   def find_type_from_object(type, object)
     invoices = find_invoices_from(object)
     find_from_invoices(invoices, type)
@@ -16,8 +17,8 @@ module Finders
     when 'Item'
       iv_items = invoice_items.find_all_by_item_id(business_data.id)
       invoice_ids = iv_items.map(&:invoice_id)
-      invoices.all.select{ |invoice| invoice_ids.include?(invoice.id)}
-      #could refactor above 3 lines into 1 if there was a find_invoices_from_array method
+      invoices.all.select { |invoice| invoice_ids.include?(invoice.id) }
+      # could refactor above 3 lines into 1 if there was a find_invoices_from_array method
     when 'Invoice'
       [business_data]
     end
@@ -33,7 +34,7 @@ module Finders
     repository = get_repository(class_string)
     case class_string
     when 'InvoiceItem', 'Transaction'
-      repository.all.select {|iv_item| iv_item.invoice_id == invoice.id}
+      repository.all.select { |iv_item| iv_item.invoice_id == invoice.id }
     when 'Merchant', 'Customer'
       method_name = "#{class_string.downcase}_id"
       [repository.find_by_id(invoice.public_send(method_name))]
@@ -51,10 +52,8 @@ module Finders
   end
 
   def underscore(string)
-    string.gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-    gsub(/([a-z\d])([A-Z])/,'\1_\2').
-    downcase
+    string.gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+          .gsub(/([a-z\d])([A-Z])/, '\1_\2')
+          .downcase
   end
-
-
 end

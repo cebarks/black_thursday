@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/merchant_repository'
 
 class MerchantRepositoryTest < Minitest::Test
-
   def setup
     @mr = MerchantRepository.new
   end

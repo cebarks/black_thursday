@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 
 require './lib/sales_engine'
 
 class SalesEngineTest < Minitest::Test
-
   include TestSetup
   def setup
     setup_empty_sales_engine
