@@ -1,15 +1,14 @@
-module TestSetup
+# frozen_string_literal: true
 
+module TestSetup
   def setup_fixtures
     @se = SalesEngine.from_csv(
-      {
-        items: './test/data/test_items.csv',
-        merchants: './test/data/test_merchants.csv',
-        invoices: './test/data/test_invoices.csv',
-        invoice_items: './test/data/test_invoice_items.csv',
-        transactions: './test/data/test_transactions.csv',
-        customers: './test/data/test_customers.csv'
-      }
+      items: './test/data/test_items.csv',
+      merchants: './test/data/test_merchants.csv',
+      invoices: './test/data/test_invoices.csv',
+      invoice_items: './test/data/test_invoice_items.csv',
+      transactions: './test/data/test_transactions.csv',
+      customers: './test/data/test_customers.csv'
     )
     @sa = @se.analyst
   end

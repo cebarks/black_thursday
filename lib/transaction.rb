@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'business_data'
 
 class Transaction < BusinessData
@@ -11,7 +13,7 @@ class Transaction < BusinessData
     @credit_card_number = input_hash[:credit_card_number]
     @credit_card_expiration_date = input_hash[:credit_card_expiration_date]
     @result = input_hash[:result]
-    @created_at= input_hash[:created_at]
+    @created_at = input_hash[:created_at]
     @updated_at = input_hash[:updated_at]
   end
 end

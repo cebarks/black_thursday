@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/item'
 require 'bigdecimal'
@@ -6,14 +8,15 @@ class ItemTest < Minitest::Test
   def setup
     @current_time = Time.now
 
-    @item = Item.new({
-      :id          => 1,
-      :name        => 'Pencil',
-      :description => 'You can use it to write things',
-      :unit_price  => BigDecimal.new(10.99,4),
-      :created_at  => @current_time,
-      :updated_at  => @current_time,
-      :merchant_id => 2})
+    @item = Item.new(
+      id: 1,
+      name: 'Pencil',
+      description: 'You can use it to write things',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: @current_time,
+      updated_at: @current_time,
+      merchant_id: 2
+    )
   end
 
   def test_it_exists
@@ -33,7 +36,7 @@ class ItemTest < Minitest::Test
   end
 
   def test_it_has_a_unit_price
-    assert_equal BigDecimal.new(10.99,4), @item.unit_price
+    assert_equal BigDecimal(10.99, 4), @item.unit_price
   end
 
   def test_it_has_a_created_at_time

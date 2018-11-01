@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/invoice'
 require 'bigdecimal'
@@ -5,14 +7,14 @@ require 'bigdecimal'
 class InvoiceTest < Minitest::Test
   def setup
     @now = Time.now
-    @invoice = Invoice.new({
-      :id          => 6,
-      :customer_id => 7,
-      :merchant_id => 8,
-      :status      => "pending",
-      :created_at  => @now,
-      :updated_at  => @now,
-    })
+    @invoice = Invoice.new(
+      id: 6,
+      customer_id: 7,
+      merchant_id: 8,
+      status: 'pending',
+      created_at: @now,
+      updated_at: @now
+    )
   end
 
   def test_it_exists
@@ -32,7 +34,7 @@ class InvoiceTest < Minitest::Test
   end
 
   def test_it_has_a_status
-    assert_equal "pending", @invoice.status
+    assert_equal 'pending', @invoice.status
   end
 
   def test_it_has_a_created_at_time

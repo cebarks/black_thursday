@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/sales_engine'
 require './test/test_data'
 
 class InvoiceIntelligenceTest < Minitest::Test
-  include TestData, TestSetup
+  include TestSetup
+  include TestData
 
   def setup
     setup_empty_sales_engine
@@ -48,36 +51,36 @@ class InvoiceIntelligenceTest < Minitest::Test
 
   def test_invoice_paid_in_full_can_return_true
     invoice = @se.invoices.create(id: 1, customer_id: 1, merchant_id: 4, status: :shipped)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
     assert @sa.invoice_paid_in_full?(invoice[0].id)
   end
 
   def test_each_invoice_day
     setup_invoices_with_different_days_created
-    assert_equal %w(Saturday Sunday Monday), @sa.each_invoice_day
+    assert_equal %w[Saturday Sunday Monday], @sa.each_invoice_day
   end
 
   def test_days_with_iv_count
     setup_invoices_with_different_days_created
-    expected = {"Sunday"=>1, "Monday"=>1, "Tuesday"=>0, "Wednesday"=>0, "Thursday"=>0, "Friday"=>0, "Saturday"=>1}
+    expected = { 'Sunday' => 1, 'Monday' => 1, 'Tuesday' => 0, 'Wednesday' => 0, 'Thursday' => 0, 'Friday' => 0, 'Saturday' => 1 }
     assert_equal expected, @sa.days_with_iv_count
   end
 
   def test_days_by_top_invoice_count
     setup_invoices_with_different_days_created
-    assert_equal %w(Sunday Monday Saturday), @sa.top_days_by_invoice_count
+    assert_equal %w[Sunday Monday Saturday], @sa.top_days_by_invoice_count
   end
 
   def test_all_transactions_successful_for_invoice_id_returns_true
     invoice = @se.invoices.create(id: 1, customer_id: 1, merchant_id: 4, status: :shipped)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
     assert @sa.all_transactions_successful_for?(invoice[0].id)
   end
 
   def test_all_transactions_successful_for_invoice_id_returns_false_when_one_is_unsuccessful
     invoice = @se.invoices.create(id: 1, customer_id: 1, merchant_id: 4, status: :shipped)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :failure, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :failure, credit_card_expiration_date: Time.now)
     refute @sa.all_transactions_successful_for?(invoice[0].id)
   end
 
@@ -93,8 +96,8 @@ class InvoiceIntelligenceTest < Minitest::Test
   def test_best_invoice_by_quantity
     @se.invoices.create(id: 1, customer_id: 1, merchant_id: 4, status: :shipped)
     @se.invoices.create(id: 2, customer_id: 1, merchant_id: 4, status: :shipped)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
-    @se.transactions.create(id:1, invoice_id: 2, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 2, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
     @se.invoice_items.create(id: 1, item_id: 2, invoice_id: 2, unit_price: BigDecimal(100_000_00), quantity: 1)
     @se.invoice_items.create(id: 2, item_id: 3, invoice_id: 2, unit_price: BigDecimal(100_000_00), quantity: 2)
     @se.invoice_items.create(id: 3, item_id: 4, invoice_id: 1, unit_price: BigDecimal(100_000_00), quantity: 3)
@@ -107,12 +110,12 @@ class InvoiceIntelligenceTest < Minitest::Test
   def test_best_invoice_by_revenue
     @se.invoices.create(id: 1, customer_id: 1, merchant_id: 4, status: :shipped)
     @se.invoices.create(id: 2, customer_id: 1, merchant_id: 4, status: :shipped)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
-    @se.transactions.create(id:1, invoice_id: 2, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 2, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
     @se.invoice_items.create(id: 1, item_id: 2, invoice_id: 2, unit_price: BigDecimal(100_000_00), quantity: 1)
     @se.invoice_items.create(id: 2, item_id: 3, invoice_id: 2, unit_price: BigDecimal(100_000_00), quantity: 2)
     @se.invoice_items.create(id: 3, item_id: 4, invoice_id: 1, unit_price: BigDecimal(1), quantity: 3)
-    @se.invoice_items.create(id: 4, item_id: 5, invoice_id: 1, unit_price: BigDecimal(20000), quantity: 4)
+    @se.invoice_items.create(id: 4, item_id: 5, invoice_id: 1, unit_price: BigDecimal(20_000), quantity: 4)
     actual = @sa.best_invoice_by_revenue
     assert_instance_of Invoice, actual
     assert_equal 2, actual.id
@@ -122,7 +125,7 @@ class InvoiceIntelligenceTest < Minitest::Test
     invoice = @se.invoices.create(id: 2, customer_id: 1, merchant_id: 4, status: :shipped)
     @se.invoice_items.create(id: 1, item_id: 2, invoice_id: 2, unit_price: BigDecimal(100_000_00), quantity: 1)
     @se.invoice_items.create(id: 2, item_id: 3, invoice_id: 2, unit_price: BigDecimal(100_000_00), quantity: 2)
-    @se.invoice_items.create(id: 4, item_id: 5, invoice_id: 2, unit_price: BigDecimal(20000), quantity: 4)
+    @se.invoice_items.create(id: 4, item_id: 5, invoice_id: 2, unit_price: BigDecimal(20_000), quantity: 4)
     assert_equal 7, @sa.quantity_of_invoice(invoice[0])
   end
 
@@ -137,8 +140,8 @@ class InvoiceIntelligenceTest < Minitest::Test
   def test_revenue_from_invoices_returns_0_when_no_successful_transactions
     @se.invoices.create(id: 1, customer_id: 1, merchant_id: 4, status: :shipped)
     @se.invoices.create(id: 2, customer_id: 1, merchant_id: 4, status: :shipped)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :failure, credit_card_expiration_date: Time.now)
-    @se.transactions.create(id:1, invoice_id: 2, credit_card_number: 2, result: :failure, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :failure, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 2, credit_card_number: 2, result: :failure, credit_card_expiration_date: Time.now)
     assert_equal 0, @sa.revenue_from_invoices(@se.invoices.all)
   end
 
@@ -147,8 +150,8 @@ class InvoiceIntelligenceTest < Minitest::Test
     @se.invoices.create(id: 2, customer_id: 1, merchant_id: 4, status: :shipped)
     @se.invoice_items.create(id: 1, item_id: 2, invoice_id: 1, unit_price: BigDecimal(100_000_00), quantity: 1)
     @se.invoice_items.create(id: 2, item_id: 2, invoice_id: 2, unit_price: BigDecimal(100_000_00), quantity: 1)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
     assert_equal 100_000_00, @sa.revenue_from_invoices(@se.invoices.all)
   end
 
@@ -157,17 +160,16 @@ class InvoiceIntelligenceTest < Minitest::Test
     @se.invoices.create(id: 2, customer_id: 1, merchant_id: 4, status: :shipped)
     @se.invoice_items.create(id: 1, item_id: 2, invoice_id: 1, unit_price: BigDecimal(100_000_00), quantity: 1)
     @se.invoice_items.create(id: 2, item_id: 2, invoice_id: 2, unit_price: BigDecimal(100_000_00), quantity: 1)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
-    @se.transactions.create(id:1, invoice_id: 2, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 2, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
     assert_equal 200_000_00, @sa.revenue_from_invoices(@se.invoices.all)
   end
-
 
   def test_unsuccessful_invoices
     @se.invoices.create(id: 1123, customer_id: 1, merchant_id: 4, status: :shipped)
     @se.invoices.create(id: 1, customer_id: 1, merchant_id: 4, status: :shipped)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
-    @se.transactions.create(id:2, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 2, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
     actual = @sa.unsuccessful_invoices
     assert_equal 1, actual.size
     assert_equal 1123, actual[0].id
@@ -177,8 +179,8 @@ class InvoiceIntelligenceTest < Minitest::Test
     setup_empty_sales_engine
     @se.invoices.create(id: 1, customer_id: 6, merchant_id: 1, status: :shipped)
     @se.invoices.create(id: 2, customer_id: 6, merchant_id: 1, status: :pending)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
-    @se.transactions.create(id:2, invoice_id: 2, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 2, invoice_id: 2, credit_card_number: 2, result: :success, credit_card_expiration_date: Time.now)
     assert @sa.invoice_paid_in_full?(1)
     assert @sa.invoice_paid_in_full?(2)
   end
@@ -187,7 +189,7 @@ class InvoiceIntelligenceTest < Minitest::Test
     setup_empty_sales_engine
     @se.invoices.create(id: 1, customer_id: 6, merchant_id: 1, status: :shipped)
     @se.invoices.create(id: 2, customer_id: 6, merchant_id: 1, status: :pending)
-    @se.transactions.create(id:1, invoice_id: 1, credit_card_number: 2, result: :failure, credit_card_expiration_date: Time.now)
+    @se.transactions.create(id: 1, invoice_id: 1, credit_card_number: 2, result: :failure, credit_card_expiration_date: Time.now)
     refute @sa.invoice_paid_in_full?(1)
     refute @sa.invoice_paid_in_full?(2)
   end

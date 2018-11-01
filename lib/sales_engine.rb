@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'csv'
 require 'Time'
 require 'bigdecimal'
@@ -45,7 +47,7 @@ class SalesEngine
     populate_repository(customer_repository, customers_file)
     populate_repository(transaction_repository, transactions_file)
 
-    self.new(item_repository, merchant_repository, invoice_repository, invoice_item_repository, customer_repository, transaction_repository)
+    new(item_repository, merchant_repository, invoice_repository, invoice_item_repository, customer_repository, transaction_repository)
   end
 
   def self.populate_repository(repository, csv_file)
@@ -61,7 +63,7 @@ class SalesEngine
     args = base_hash_from_row(row)
     args[:name] = row[:name]
     args[:description] = row[:description]
-    args[:unit_price] = BigDecimal.new(row[:unit_price], row[:unit_price].length) / 100
+    args[:unit_price] = BigDecimal(row[:unit_price], row[:unit_price].length) / 100
     args[:merchant_id] = row[:merchant_id].to_i
     args
   end
@@ -85,7 +87,7 @@ class SalesEngine
     args[:item_id] = row[:item_id].to_i
     args[:invoice_id] = row[:invoice_id].to_i
     args[:quantity] = row[:quantity].to_i
-    args[:unit_price] = BigDecimal.new(row[:unit_price], row[:unit_price].length) / 100
+    args[:unit_price] = BigDecimal(row[:unit_price], row[:unit_price].length) / 100
     args
   end
 

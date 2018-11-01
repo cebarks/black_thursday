@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Statistics
   def standard_deviation(*nums)
     av = average(*nums)
-    diffs = nums.map{|n| n - av}
-    Math.sqrt(diffs.map{|n|n**2}.inject(&:+).to_f / (nums.size - 1).to_f)
+    diffs = nums.map { |n| n - av }
+    Math.sqrt(diffs.map { |n| n**2 }.inject(&:+).to_f / (nums.size - 1).to_f)
   end
 
   def average(*nums)
@@ -22,18 +24,19 @@ module Statistics
   end
 
   def average_items_per_merchant_standard_deviation
-    items_per_each_merchant = @items.all.group_by{ |item| item.merchant_id }.map{ |k,v| v.size }
+    items_per_each_merchant = @items.all.group_by(&:merchant_id).map { |_k, v| v.size }
     standard_deviation(*items_per_each_merchant).round(2)
   end
 
   def average_invoices_per_merchant_standard_deviation
-    invoices_per_each_merchant = @invoices.all.group_by{|iv|iv.merchant_id}.map{|k,v|v.size}
+    invoices_per_each_merchant = @invoices.all.group_by(&:merchant_id).map { |_k, v| v.size }
     standard_deviation(*invoices_per_each_merchant).round(2)
   end
 
   def average_item_price_for_merchant(merchant_id)
     prices = @items.find_all_by_merchant_id(merchant_id).map(&:unit_price)
     return nil if prices == []
+
     BigDecimal(average(*prices).to_f.round(2).to_s)
   end
 
@@ -46,11 +49,11 @@ module Statistics
 
   def sum(*nums)
     nums.reduce(0) do |sum, object|
-      if block_given?
-        sum += yield( object )
-      else
-        sum += object
-      end
+      sum += if block_given?
+               yield(object)
+             else
+               object
+             end
     end
   end
 end

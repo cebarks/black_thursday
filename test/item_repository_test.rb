@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/item_repository'
 require './lib/item'
@@ -8,43 +10,43 @@ class ItemRepositoryTest < Minitest::Test
     @ir = ItemRepository.new
 
     @item_1 = {
-      :id          => 1,
-      :name        => "Pencil",
-      :description => "You can use it to write things",
-      :unit_price  => BigDecimal.new(10.99,4),
-      :created_at  => Time.now,
-      :updated_at  => Time.now,
-      :merchant_id => 2
+      id: 1,
+      name: 'Pencil',
+      description: 'You can use it to write things',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 2
     }
 
     @item_2 = {
-      :id          => 2,
-      :name        => "Penguin",
-      :description => "You can use it to sled",
-      :unit_price  => BigDecimal.new(9.99,4),
-      :created_at  => Time.now,
-      :updated_at  => Time.now,
-      :merchant_id => 2
+      id: 2,
+      name: 'Penguin',
+      description: 'You can use it to sled',
+      unit_price: BigDecimal(9.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 2
     }
 
     @item_3 = {
-      :id          => 3,
-      :name        => "Pajamas",
-      :description => "You can use it to wear around the house",
-      :unit_price  => BigDecimal.new(10.99,4),
-      :created_at  => Time.now,
-      :updated_at  => Time.now,
-      :merchant_id => 3
+      id: 3,
+      name: 'Pajamas',
+      description: 'You can use it to wear around the house',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 3
     }
 
     @item_4 = {
-      :id          => 4,
-      :name        => "Red Pajamas",
-      :description => "You can use it to wear around the house",
-      :unit_price  => BigDecimal.new(5.99,4),
-      :created_at  => Time.now,
-      :updated_at  => Time.now,
-      :merchant_id => 4
+      id: 4,
+      name: 'Red Pajamas',
+      description: 'You can use it to wear around the house',
+      unit_price: BigDecimal(5.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 4
     }
   end
 
@@ -67,7 +69,7 @@ class ItemRepositoryTest < Minitest::Test
     expected = [Item.new(@item_1), Item.new(@item_2), Item.new(@item_3), Item.new(@item_4)]
     result = @ir.instances
 
-    result.each_with_index {|item, index| assert item == expected[index]}
+    result.each_with_index { |item, index| assert item == expected[index] }
     assert_equal 4, @ir.instances.count
   end
 
@@ -75,21 +77,21 @@ class ItemRepositoryTest < Minitest::Test
     assert_empty @ir.instances
 
     item_1_no_id = {
-      :name        => "Pencil",
-      :description => "You can use it to write things",
-      :unit_price  => BigDecimal.new(10.99,4),
-      :created_at  => Time.now,
-      :updated_at  => Time.now,
-      :merchant_id => 2
+      name: 'Pencil',
+      description: 'You can use it to write things',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 2
     }
 
     item_2_no_id = {
-      :name        => "Penguin",
-      :description => "You can use it to sled",
-      :unit_price  => BigDecimal.new(9.99,4),
-      :created_at  => Time.now,
-      :updated_at  => Time.now,
-      :merchant_id => 2
+      name: 'Penguin',
+      description: 'You can use it to sled',
+      unit_price: BigDecimal(9.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 2
     }
 
     @ir.create(item_1_no_id)
@@ -109,23 +111,23 @@ class ItemRepositoryTest < Minitest::Test
     create_items
 
     assert_equal [],
-    @ir.find_all_with_description("You can use it to eliminate rodents")
+                 @ir.find_all_with_description('You can use it to eliminate rodents')
   end
 
   def test_find_all_with_description_returns_matching_merchants
     create_items
 
     expected = [Item.new(@item_3), Item.new(@item_4)]
-    result = @ir.find_all_with_description("You can use it to wear around the house")
+    result = @ir.find_all_with_description('You can use it to wear around the house')
 
-    result.each_with_index {|item, index| assert item == expected[index]}
+    result.each_with_index { |item, index| assert item == expected[index] }
   end
 
   def test_find_all_by_price_returns_empty_array_if_no_items_match
     create_items
 
     assert_equal [],
-    @ir.find_all_by_price(10.88)
+                 @ir.find_all_by_price(10.88)
   end
 
   def test_find_all_by_price_returns_matching_items
@@ -134,30 +136,30 @@ class ItemRepositoryTest < Minitest::Test
     result = [Item.new(@item_1), Item.new(@item_3)]
     expected = @ir.find_all_by_price(10.99)
 
-    result.each_with_index {|item, index| assert item == expected[index]}
+    result.each_with_index { |item, index| assert item == expected[index] }
   end
 
   def test_find_all_by_price_range_returns_empty_array_if_no_items_match
     create_items
 
     assert_equal [],
-    @ir.find_all_by_price_in_range(BigDecimal.new(12.99, 4)..BigDecimal.new(13.99, 4))
+                 @ir.find_all_by_price_in_range(BigDecimal(12.99, 4)..BigDecimal(13.99, 4))
   end
 
   def test_find_all_by_price_range_returns_matches
     create_items
 
     expected = [Item.new(@item_2), Item.new(@item_4)]
-    result = @ir.find_all_by_price_in_range(BigDecimal.new(5.99, 4)..BigDecimal.new(10, 2))
+    result = @ir.find_all_by_price_in_range(BigDecimal(5.99, 4)..BigDecimal(10, 2))
 
-    result.each_with_index {|item, index| assert item == expected[index]}
+    result.each_with_index { |item, index| assert item == expected[index] }
   end
 
   def test_find_all_by_merchant_id_returns_empty_array_if_no_items_match
     create_items
 
     assert_equal [],
-    @ir.find_all_by_merchant_id(5)
+                 @ir.find_all_by_merchant_id(5)
   end
 
   def test_find_all_by_merchant_id_returns_matches
@@ -165,41 +167,41 @@ class ItemRepositoryTest < Minitest::Test
 
     expected = [Item.new(@item_1), Item.new(@item_2)]
     result = @ir.find_all_by_merchant_id(2)
-    result.each_with_index {|item, index| assert item == expected[index]}
+    result.each_with_index { |item, index| assert item == expected[index] }
   end
 
   def test_update_returns_nil_if_no_item_with_id
     create_items
 
-    assert_nil @ir.update(5, name: "Pen", description: "Writes things")
+    assert_nil @ir.update(5, name: 'Pen', description: 'Writes things')
   end
 
   def test_update_succesfully_updates_item_with_new_attribute_values
     create_items
 
     item_previous = {
-      :id          => 2,
-      :name        => "Penguin",
-      :description => "You can use it to sled",
-      :unit_price  => BigDecimal.new(9.99,4),
-      :created_at  => Time.now,
-      :updated_at  => Time.now,
-      :merchant_id => 2
+      id: 2,
+      name: 'Penguin',
+      description: 'You can use it to sled',
+      unit_price: BigDecimal(9.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 2
     }
 
     assert Item.new(item_previous) == @ir.find_by_id(2)
 
     item_updated = {
-      :id          => 2,
-      :name        => "Pen",
-      :description => "Writes things",
-      :unit_price  => BigDecimal.new(9.99,4),
-      :created_at  => Time.now,
-      :updated_at  => Time.now,
-      :merchant_id => 2
+      id: 2,
+      name: 'Pen',
+      description: 'Writes things',
+      unit_price: BigDecimal(9.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 2
     }
 
-    @ir.update(2, name: "Pen", description: "Writes things")
+    @ir.update(2, name: 'Pen', description: 'Writes things')
 
     assert Item.new(item_updated) == @ir.find_by_id(2)
   end
@@ -208,23 +210,23 @@ class ItemRepositoryTest < Minitest::Test
     now = Time.now
 
     item_1 = {
-      :id          => 1,
-      :name        => "Penguin",
-      :description => "You can use it to sled",
-      :unit_price  => BigDecimal.new(8.99,4),
-      :created_at  => now,
-      :updated_at  => now,
-      :merchant_id => 3
+      id: 1,
+      name: 'Penguin',
+      description: 'You can use it to sled',
+      unit_price: BigDecimal(8.99, 4),
+      created_at: now,
+      updated_at: now,
+      merchant_id: 3
     }
 
     previous_item_2 = {
-      :id          => 2,
-      :name        => "Pajamas",
-      :description => "You can use it to wear around the house",
-      :unit_price  => BigDecimal.new(10.99,4),
-      :created_at  => now,
-      :updated_at  => now,
-      :merchant_id => 3
+      id: 2,
+      name: 'Pajamas',
+      description: 'You can use it to wear around the house',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: now,
+      updated_at: now,
+      merchant_id: 3
     }
 
     @ir.create(item_1)
@@ -232,16 +234,16 @@ class ItemRepositoryTest < Minitest::Test
 
     assert Item.new(previous_item_2) == @ir.find_by_id(2)
 
-    @ir.update(2, unit_price: BigDecimal.new(9.99,4))
+    @ir.update(2, unit_price: BigDecimal(9.99, 4))
 
     updated_item_2 = {
-      :id          => 2,
-      :name        => "Pajamas",
-      :description => "You can use it to wear around the house",
-      :unit_price  => BigDecimal.new(9.99,4),
-      :created_at  => now,
-      :updated_at  => Time.now,
-      :merchant_id => 3
+      id: 2,
+      name: 'Pajamas',
+      description: 'You can use it to wear around the house',
+      unit_price: BigDecimal(9.99, 4),
+      created_at: now,
+      updated_at: Time.now,
+      merchant_id: 3
     }
 
     assert Item.new(updated_item_2) == @ir.find_by_id(2)

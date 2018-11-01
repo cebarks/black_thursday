@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Repository
   attr_reader :instances, :type
   def initialize
@@ -6,16 +8,16 @@ class Repository
   end
 
   def mark_unsorted
-    self.sorted = false if self.respond_to?(:sorted)
+    self.sorted = false if respond_to?(:sorted)
   end
 
   def create(args)
-    self.mark_unsorted
-    unless args[:id]
+    mark_unsorted
+    if args[:id]
+      @count = @count < args[:id] ? args[:id] : @count
+    else
       @count += 1
       args[:id] = @count
-    else
-      @count = @count < args[:id] ? args[:id] : @count
     end
     args[:created_at] = Time.now unless args[:created_at]
     @instances << @type.new(args)
@@ -53,9 +55,9 @@ class Repository
   end
 
   def update(id, attributes)
-    self.mark_unsorted
+    mark_unsorted
     found_instance = find_by_id(id)
-    return nil if not found_instance
+    return nil unless found_instance
 
     attributes.select! do |attribute|
       @attr_whitelist.include?(attribute)

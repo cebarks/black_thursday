@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/invoice_item_repository'
 require './lib/invoice_item'
@@ -8,33 +10,33 @@ class InvoiceItemRepositoryTest < Minitest::Test
     @iir = InvoiceItemRepository.new
 
     @ii_1 = {
-      :id => 6,
-      :item_id => 6,
-      :invoice_id => 3,
-      :quantity => 1,
-      :unit_price => BigDecimal.new(10.99, 4),
-      :created_at => Time.now,
-      :updated_at => Time.now
+      id: 6,
+      item_id: 6,
+      invoice_id: 3,
+      quantity: 1,
+      unit_price: BigDecimal(10.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now
     }
 
     @ii_2 = {
-      :id => 6,
-      :item_id => 7,
-      :invoice_id => 8,
-      :quantity => 1,
-      :unit_price => BigDecimal.new(9.99, 4),
-      :created_at => Time.now,
-      :updated_at => Time.now
+      id: 6,
+      item_id: 7,
+      invoice_id: 8,
+      quantity: 1,
+      unit_price: BigDecimal(9.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now
     }
 
     @ii_3 = {
-      :id => 6,
-      :item_id => 7,
-      :invoice_id => 8,
-      :quantity => 1,
-      :unit_price => BigDecimal.new(9.99, 4),
-      :created_at => Time.now,
-      :updated_at => Time.now
+      id: 6,
+      item_id: 7,
+      invoice_id: 8,
+      quantity: 1,
+      unit_price: BigDecimal(9.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now
     }
   end
 
@@ -53,7 +55,7 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_it_has_an_attr_whitelist
-    assert_equal [:quantity, :unit_price], @iir.attr_whitelist
+    assert_equal %i[quantity unit_price], @iir.attr_whitelist
   end
 
   def test_find_all_by_item_id_returns_empty_array_if_no_matches

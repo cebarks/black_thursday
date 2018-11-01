@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/customer'
 
 class CustomerTest < Minitest::Test
   def setup
     @now = Time.now
-    @customer = Customer.new({
-      :id => 6,
-      :first_name => "Joan",
-      :last_name => "Clarke",
-      :created_at => @now,
-      :updated_at => @now
-    })
+    @customer = Customer.new(
+      id: 6,
+      first_name: 'Joan',
+      last_name: 'Clarke',
+      created_at: @now,
+      updated_at: @now
+    )
   end
 
   def test_it_exists
@@ -22,11 +24,11 @@ class CustomerTest < Minitest::Test
   end
 
   def test_it_has_a_first_name
-    assert_equal "Joan", @customer.first_name
+    assert_equal 'Joan', @customer.first_name
   end
 
   def test_it_has_a_last_name
-    assert_equal "Clarke", @customer.last_name
+    assert_equal 'Clarke', @customer.last_name
   end
 
   def test_it_has_a_created_at_time

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './test/test_helper'
 require './lib/business_data'
 require './lib/item'
@@ -8,23 +10,23 @@ class BusinessDataTest < Minitest::Test
     @now = Time.now
 
     @item_1 = {
-      :id          => 1,
-      :name        => "Pencil",
-      :description => "You can use it to write things",
-      :unit_price  => BigDecimal.new(10.99,4),
-      :created_at  => @now,
-      :updated_at  => @now,
-      :merchant_id => 2
+      id: 1,
+      name: 'Pencil',
+      description: 'You can use it to write things',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: @now,
+      updated_at: @now,
+      merchant_id: 2
     }
 
     @item_2 = {
-      :id          => 2,
-      :name        => "Pen",
-      :description => "You can use it to write things neatly",
-      :unit_price  => BigDecimal.new(10.99,4),
-      :created_at  => @now,
-      :updated_at  => @now,
-      :merchant_id => 2
+      id: 2,
+      name: 'Pen',
+      description: 'You can use it to write things neatly',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: @now,
+      updated_at: @now,
+      merchant_id: 2
     }
   end
 
